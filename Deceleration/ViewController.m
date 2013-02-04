@@ -23,4 +23,10 @@
     [super viewDidLoad];
     _rotatingView.circleRadius = _rotatingView.height/2;
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [_rotatingView setAngle:M_PI_2 animated:YES];
+}
 @end

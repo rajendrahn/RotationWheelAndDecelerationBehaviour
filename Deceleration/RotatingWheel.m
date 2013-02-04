@@ -7,6 +7,7 @@
 //
 
 #import "RotatingWheel.h"
+#import "DecelerationBehaviour.h"
 #import "ViewUtils.h"
 
 typedef struct
@@ -26,6 +27,13 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
 {
     return sqrt(((point2.x - point1.x)*(point2.x - point1.x)) + ((point2.y - point1.y)*(point2.y - point1.y)));
 }
+
+@interface RotatingWheel ()<DecelerationBehaviourTarget>
+
+@property (nonatomic, strong) DecelerationBehaviour *deceleratingBehaviour;
+@property (nonatomic, assign) CGPoint lastTouchPoint;
+
+@end
 
 @implementation RotatingWheel
 
@@ -49,32 +57,80 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
 
 - (void)setUp
 {
+    self.angle = 0.0f;
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(handlePan:)];
     [self addGestureRecognizer:panGestureRecognizer];
+    
+    _deceleratingBehaviour = [DecelerationBehaviour instanceWithTarget:self];
+}
+
+- (void)setAngle:(CGFloat)angle
+{
+    _angle = angle;
+    self.transform = CGAffineTransformMakeRotation(angle);
+}
+
+- (void)setAngle:(CGFloat)angle animated:(BOOL)animated
+{
+    void (^animationblock)(void) = ^()
+    {
+        self.angle = angle;
+    };
+    
+    if (animated)
+    {
+        [UIView animateWithDuration:0.3 animations:animationblock];
+    }
+    else
+    {
+        animationblock();
+    }
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)panGestureRecognizer
 {
-    CGPoint presentTouchPoints = [panGestureRecognizer locationInView:self];
+    [_deceleratingBehaviour cancelDeceleration];
+    CGPoint presentTouchPoint = [panGestureRecognizer locationInView:self];
     
-    if(![self isTouchPointInsideCircle:presentTouchPoints]) return;
+    if(panGestureRecognizer.state == UIGestureRecognizerStateBegan && ![self touchPointInsideCircle:presentTouchPoint]) return;
     
     CGPoint translation = [panGestureRecognizer translationInView:self];
-    CGPoint previousTouchPoints = CGPointMake(presentTouchPoints.x - translation.x, presentTouchPoints.y - translation.y);
+    CGPoint previousTouchPoint = CGPointMake(presentTouchPoint.x - translation.x, presentTouchPoint.y - translation.y);
     
-    LINE line1,line2;
-    line1.point1 = line2.point1 = self.contentCenter;
-    line1.point2 = previousTouchPoints;
-    line2.point2 = presentTouchPoints;
-    
-    double angleOfRotation = angleBetweenLines(line2, line1);
-    self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(angleOfRotation));
+    [self rotateFromPoint:previousTouchPoint toPoint:presentTouchPoint];
     
     [panGestureRecognizer setTranslation:CGPointZero inView:self];
+    if (panGestureRecognizer.state == UIGestureRecognizerStateCancelled ||
+        panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
+        panGestureRecognizer.state == UIGestureRecognizerStateFailed)
+    {
+        CGPoint velocity = [panGestureRecognizer velocityInView:self];
+        _lastTouchPoint = presentTouchPoint;
+        [_deceleratingBehaviour decelerateWithVelocity:velocity withCompletionBlock:nil];
+    }
 }
 
-- (BOOL)isTouchPointInsideCircle:(CGPoint)touchPoint
+- (BOOL)addTranslation:(CGPoint)traslation
+{
+    CGPoint newPoint = CGPointMake(_lastTouchPoint.x + traslation.x, _lastTouchPoint.y + traslation.y);
+    [self rotateFromPoint:_lastTouchPoint toPoint:newPoint];
+    _lastTouchPoint = newPoint;
+    return YES;
+}
+
+- (void)rotateFromPoint:(CGPoint)point1 toPoint:(CGPoint)point2
+{
+    LINE line1,line2;
+    line1.point1 = line2.point1 = self.contentCenter;
+    line1.point2 = point1;
+    line2.point2 = point2;
+    
+    double angleOfRotation = angleBetweenLines(line2, line1);
+    self.angle += angleOfRotation;
+}
+
+- (BOOL)touchPointInsideCircle:(CGPoint)touchPoint
 {
     return (distanceBetweenPoints(self.contentCenter, touchPoint) <= ((_circleRadius == 0) ? self.height/2 : _circleRadius));
 }

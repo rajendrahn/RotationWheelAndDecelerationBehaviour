@@ -22,6 +22,7 @@
 		A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */; };
 		A5D8B4E316BF7EC400E9CEBD /* ArrayUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4DF16BF7EC400E9CEBD /* ArrayUtils.m */; };
 		A5D8B4E416BF7EC400E9CEBD /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4E216BF7EC400E9CEBD /* ViewUtils.m */; };
+		A5D8B4E716BF87EC00E9CEBD /* DecelerationBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4E616BF87EC00E9CEBD /* DecelerationBehaviour.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		A5D8B4DF16BF7EC400E9CEBD /* ArrayUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayUtils.m; sourceTree = "<group>"; };
 		A5D8B4E116BF7EC400E9CEBD /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
 		A5D8B4E216BF7EC400E9CEBD /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
+		A5D8B4E516BF87EC00E9CEBD /* DecelerationBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecelerationBehaviour.h; sourceTree = "<group>"; };
+		A5D8B4E616BF87EC00E9CEBD /* DecelerationBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecelerationBehaviour.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,8 @@
 			children = (
 				A5D8B4D416BF78CD00E9CEBD /* RotatingWheel.h */,
 				A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */,
+				A5D8B4E516BF87EC00E9CEBD /* DecelerationBehaviour.h */,
+				A5D8B4E616BF87EC00E9CEBD /* DecelerationBehaviour.m */,
 			);
 			name = VIew;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 				A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */,
 				A5D8B4E316BF7EC400E9CEBD /* ArrayUtils.m in Sources */,
 				A5D8B4E416BF7EC400E9CEBD /* ViewUtils.m in Sources */,
+				A5D8B4E716BF87EC00E9CEBD /* DecelerationBehaviour.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
