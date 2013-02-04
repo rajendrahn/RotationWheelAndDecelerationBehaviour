@@ -18,6 +18,8 @@
 		A5D8B4C216BF747600E9CEBD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5D8B4C116BF747600E9CEBD /* Default-568h@2x.png */; };
 		A5D8B4C516BF747600E9CEBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4C416BF747600E9CEBD /* ViewController.m */; };
 		A5D8B4C816BF747600E9CEBD /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5D8B4C616BF747600E9CEBD /* ViewController.xib */; };
+		A5D8B4D316BF789000E9CEBD /* ColorWheel1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */; };
+		A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,9 @@
 		A5D8B4C316BF747600E9CEBD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		A5D8B4C416BF747600E9CEBD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A5D8B4C716BF747600E9CEBD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ColorWheel1.jpg; sourceTree = "<group>"; };
+		A5D8B4D416BF78CD00E9CEBD /* RotatingWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatingWheel.h; sourceTree = "<group>"; };
+		A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatingWheel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +88,11 @@
 		A5D8B4B116BF747600E9CEBD /* Deceleration */ = {
 			isa = PBXGroup;
 			children = (
+				A5D8B4D116BF782A00E9CEBD /* Resources */,
+				A5D8B4D016BF781E00E9CEBD /* VIew */,
+				A5D8B4CE16BF780500E9CEBD /* Controller */,
 				A5D8B4BA16BF747600E9CEBD /* AppDelegate.h */,
 				A5D8B4BB16BF747600E9CEBD /* AppDelegate.m */,
-				A5D8B4C316BF747600E9CEBD /* ViewController.h */,
-				A5D8B4C416BF747600E9CEBD /* ViewController.m */,
-				A5D8B4C616BF747600E9CEBD /* ViewController.xib */,
 				A5D8B4B216BF747600E9CEBD /* Supporting Files */,
 			);
 			path = Deceleration;
@@ -105,6 +110,33 @@
 				A5D8B4C116BF747600E9CEBD /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A5D8B4CE16BF780500E9CEBD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4C316BF747600E9CEBD /* ViewController.h */,
+				A5D8B4C416BF747600E9CEBD /* ViewController.m */,
+				A5D8B4C616BF747600E9CEBD /* ViewController.xib */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		A5D8B4D016BF781E00E9CEBD /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4D416BF78CD00E9CEBD /* RotatingWheel.h */,
+				A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */,
+			);
+			name = VIew;
+			sourceTree = "<group>";
+		};
+		A5D8B4D116BF782A00E9CEBD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +195,7 @@
 				A5D8B4C016BF747600E9CEBD /* Default@2x.png in Resources */,
 				A5D8B4C216BF747600E9CEBD /* Default-568h@2x.png in Resources */,
 				A5D8B4C816BF747600E9CEBD /* ViewController.xib in Resources */,
+				A5D8B4D316BF789000E9CEBD /* ColorWheel1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +209,7 @@
 				A5D8B4B816BF747600E9CEBD /* main.m in Sources */,
 				A5D8B4BC16BF747600E9CEBD /* AppDelegate.m in Sources */,
 				A5D8B4C516BF747600E9CEBD /* ViewController.m in Sources */,
+				A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
