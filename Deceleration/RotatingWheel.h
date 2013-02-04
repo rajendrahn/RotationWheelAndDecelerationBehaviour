@@ -10,4 +10,7 @@
 
 @interface RotatingWheel : UIView
 
+//any touch outside the circle with self.center as center and self.circleRadius as radius will be discarded.
+@property (nonatomic, assign) CGFloat circleRadius;
+
 @end

@@ -20,6 +20,8 @@
 		A5D8B4C816BF747600E9CEBD /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5D8B4C616BF747600E9CEBD /* ViewController.xib */; };
 		A5D8B4D316BF789000E9CEBD /* ColorWheel1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */; };
 		A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */; };
+		A5D8B4E316BF7EC400E9CEBD /* ArrayUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4DF16BF7EC400E9CEBD /* ArrayUtils.m */; };
+		A5D8B4E416BF7EC400E9CEBD /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B4E216BF7EC400E9CEBD /* ViewUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,10 @@
 		A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ColorWheel1.jpg; sourceTree = "<group>"; };
 		A5D8B4D416BF78CD00E9CEBD /* RotatingWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatingWheel.h; sourceTree = "<group>"; };
 		A5D8B4D516BF78CD00E9CEBD /* RotatingWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatingWheel.m; sourceTree = "<group>"; };
+		A5D8B4DE16BF7EC400E9CEBD /* ArrayUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayUtils.h; sourceTree = "<group>"; };
+		A5D8B4DF16BF7EC400E9CEBD /* ArrayUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayUtils.m; sourceTree = "<group>"; };
+		A5D8B4E116BF7EC400E9CEBD /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
+		A5D8B4E216BF7EC400E9CEBD /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,7 @@
 		A5D8B4B116BF747600E9CEBD /* Deceleration */ = {
 			isa = PBXGroup;
 			children = (
+				A5D8B4DC16BF7EC400E9CEBD /* Library */,
 				A5D8B4D116BF782A00E9CEBD /* Resources */,
 				A5D8B4D016BF781E00E9CEBD /* VIew */,
 				A5D8B4CE16BF780500E9CEBD /* Controller */,
@@ -137,6 +144,33 @@
 				A5D8B4D216BF789000E9CEBD /* ColorWheel1.jpg */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		A5D8B4DC16BF7EC400E9CEBD /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4DD16BF7EC400E9CEBD /* ArrayUtils */,
+				A5D8B4E016BF7EC400E9CEBD /* ViewUtils */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		A5D8B4DD16BF7EC400E9CEBD /* ArrayUtils */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4DE16BF7EC400E9CEBD /* ArrayUtils.h */,
+				A5D8B4DF16BF7EC400E9CEBD /* ArrayUtils.m */,
+			);
+			path = ArrayUtils;
+			sourceTree = "<group>";
+		};
+		A5D8B4E016BF7EC400E9CEBD /* ViewUtils */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8B4E116BF7EC400E9CEBD /* ViewUtils.h */,
+				A5D8B4E216BF7EC400E9CEBD /* ViewUtils.m */,
+			);
+			path = ViewUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +244,8 @@
 				A5D8B4BC16BF747600E9CEBD /* AppDelegate.m in Sources */,
 				A5D8B4C516BF747600E9CEBD /* ViewController.m in Sources */,
 				A5D8B4D616BF78CD00E9CEBD /* RotatingWheel.m in Sources */,
+				A5D8B4E316BF7EC400E9CEBD /* ArrayUtils.m in Sources */,
+				A5D8B4E416BF7EC400E9CEBD /* ViewUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

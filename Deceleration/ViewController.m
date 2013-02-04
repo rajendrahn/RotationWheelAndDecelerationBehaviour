@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "RotatingWheel.h"
+#import "ViewUtils.h"
 
 @interface ViewController ()
+
+@property (weak, nonatomic) IBOutlet RotatingWheel *rotatingView;
 
 @end
 
@@ -17,13 +21,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    _rotatingView.circleRadius = _rotatingView.height/2;
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 @end
