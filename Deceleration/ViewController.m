@@ -11,6 +11,11 @@
 #import "ViewUtils.h"
 #import "DecelerationBehaviour.h"
 
+CGFloat degreeToRadian(CGFloat degree)
+{
+    return degree * M_PI / 180;
+}
+
 @interface ViewController () <DecelerationBehaviourTarget>
 
 @property (weak, nonatomic) IBOutlet RotatingWheel *rotatingView;
@@ -26,6 +31,21 @@
 {
     [super viewDidLoad];
     _rotatingView.circleRadius = _rotatingView.height/2;
+    _rotatingView.referenceAngles = @[
+    [NSNumber numberWithFloat:degreeToRadian(15)],
+    [NSNumber numberWithFloat:degreeToRadian(45)],
+    [NSNumber numberWithFloat:degreeToRadian(75)],
+    [NSNumber numberWithFloat:degreeToRadian(105)],
+    [NSNumber numberWithFloat:degreeToRadian(135)],
+    [NSNumber numberWithFloat:degreeToRadian(165)],
+    [NSNumber numberWithFloat:degreeToRadian(195)],
+    [NSNumber numberWithFloat:degreeToRadian(225)],
+    [NSNumber numberWithFloat:degreeToRadian(255)],
+    [NSNumber numberWithFloat:degreeToRadian(285)],
+    [NSNumber numberWithFloat:degreeToRadian(315)],
+    [NSNumber numberWithFloat:degreeToRadian(345)],
+    ];
+//    _rotatingView.shouldDecelerate = NO;
     _deceleratingBehaviour = [DecelerationBehaviour instanceWithTarget:self];
     _deceleratingBehaviour.smoothnessFactor = 0.9;
 }
@@ -33,7 +53,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_rotatingView setAngle:M_PI_2 animated:YES];
+//    [_rotatingView setAngle:M_PI_2 animated:YES];
 }
 
 - (void)addTranslation:(CGPoint)traslation

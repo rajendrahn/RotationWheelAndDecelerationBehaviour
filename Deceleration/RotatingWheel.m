@@ -9,6 +9,7 @@
 #import "RotatingWheel.h"
 #import "DecelerationBehaviour.h"
 #import "ViewUtils.h"
+#import "ArrayUtils.h"
 
 typedef struct
 {
@@ -39,19 +40,13 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
 
 - (id)initWithFrame:(CGRect)frame
 {
-    if (self = [super initWithFrame:frame])
-    {
-        [self setUp];
-    }
+    if (self = [super initWithFrame:frame]) [self setUp];
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super initWithCoder:aDecoder])
-    {
-        [self setUp];
-    }
+    if (self = [super initWithCoder:aDecoder]) [self setUp];
     return self;
 }
 
@@ -65,12 +60,31 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
     
     _deceleratingBehaviour = [DecelerationBehaviour instanceWithTarget:self];
     _deceleratingBehaviour.smoothnessFactor = 0.92;
+    _shouldDecelerate = YES;
 }
 
 - (void)setAngle:(CGFloat)angle
 {
+    //keep the angle in [0-2PI] range
+    int times = angle / (2 * M_PI);
+    angle = angle - times * 2 * M_PI;
+    if(angle < 0) angle += 2*M_PI;
     _angle = angle;
     self.transform = CGAffineTransformMakeRotation(angle);
+}
+
+- (void)setReferenceAngles:(NSArray *)referenceAngles
+{
+    //sort the array for convinence
+    _referenceAngles = [referenceAngles sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return (((NSNumber *)obj1).doubleValue > ((NSNumber *)obj2).doubleValue);
+    }];
+}
+
+- (void)setShouldDecelerate:(BOOL)shouldDecelerate
+{
+    _shouldDecelerate = shouldDecelerate;
+    if(!shouldDecelerate) [_deceleratingBehaviour cancelDeceleration];
 }
 
 - (void)setAngle:(CGFloat)angle animated:(BOOL)animated
@@ -80,14 +94,8 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
         self.angle = angle;
     };
     
-    if (animated)
-    {
-        [UIView animateWithDuration:0.3 animations:animationblock];
-    }
-    else
-    {
-        animationblock();
-    }
+    if(animated) [UIView animateWithDuration:0.3 animations:animationblock];
+    else animationblock();
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)panGestureRecognizer
@@ -98,7 +106,7 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
     CGPoint previousTouchPoint = CGPointMake(presentTouchPoint.x - translation.x, presentTouchPoint.y - translation.y);
     
     CGFloat angularRotation = [self rotateFromPoint:previousTouchPoint toPoint:presentTouchPoint];
-    if (angularRotation != 0)
+    if (translation.x != 0 || translation.y != 0)
     {
         _rotationDirectionClockwise = angularRotation > 0;
     }
@@ -108,13 +116,40 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
         panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
         panGestureRecognizer.state == UIGestureRecognizerStateFailed)
     {
+        if(!_shouldDecelerate) return;
         CGPoint velocity = [panGestureRecognizer velocityInView:self];
         CGFloat velocityVectorMagneture = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
         CGFloat angularVelocity = velocityVectorMagneture / distanceBetweenPoints(presentTouchPoint, self.contentCenter);
+        
         if(!_rotationDirectionClockwise) angularVelocity = -angularVelocity;
+        
         velocity.x = angularVelocity;
         velocity.y = angularVelocity;
-        [_deceleratingBehaviour decelerateWithVelocity:velocity withCompletionBlock:nil];
+        
+        [_deceleratingBehaviour decelerateWithVelocity:velocity withCompletionBlock:^{
+            //move to closest of the reference angle
+            if (_referenceAngles)
+            {
+                NSInteger nextIndex = [_referenceAngles indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                    if (((NSNumber *)obj).doubleValue > self.angle)
+                    {
+                        *stop = YES;
+                        return YES;
+                    }
+                    return NO;
+                }];
+                if(nextIndex == NSNotFound) return;
+                NSInteger previousIndex = (nextIndex == 0) ? _referenceAngles.count - 1 : nextIndex - 1;
+                CGFloat lengthOfArcForNextIndex = _circleRadius * ([_referenceAngles[nextIndex] doubleValue] - self.angle);
+                CGFloat lengthOfArcForPreviousIndex = _circleRadius * ([_referenceAngles[previousIndex] doubleValue] - self.angle);
+                if (previousIndex == _referenceAngles.count - 1)
+                {
+                    lengthOfArcForPreviousIndex = 2 * M_PI * _circleRadius - lengthOfArcForPreviousIndex;
+                }
+                NSInteger nearestIndex = (ABS(lengthOfArcForNextIndex) > ABS(lengthOfArcForPreviousIndex)) ? previousIndex : nextIndex;
+                [self setAngle:[_referenceAngles[nearestIndex] doubleValue] animated:YES];
+            }
+        }];
     }
 }
 
