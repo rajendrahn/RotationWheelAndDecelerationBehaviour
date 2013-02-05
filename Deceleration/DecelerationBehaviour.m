@@ -7,9 +7,8 @@
 //
 
 #import "DecelerationBehaviour.h"
-#import <objc/message.h>
 
-const CGFloat kTimerInterval = 0.05;
+const CGFloat kTimerInterval = 0.025;
 
 @interface DecelerationBehaviour ()
 
@@ -24,7 +23,14 @@ const CGFloat kTimerInterval = 0.05;
     if (!(self = [super init])) return nil;
     if (!target) return nil;
     _target = target;
+    _smoothnessFactor = 0.8;
     return self;
+}
+
+- (id)init
+{
+    [NSException raise:@"Should use initWithTarget: or instanceWithTarget: methods" format:@"Should use initWithTarget: or instanceWithTarget: methods"];
+    return nil;
 }
 
 + (id)instanceWithTarget:(id<DecelerationBehaviourTarget>)target
@@ -56,15 +62,15 @@ const CGFloat kTimerInterval = 0.05;
 - (void)step:(NSTimer *)timer
 {
     CGPoint velocity = [timer.userInfo[@"velocity"] CGPointValue];
-    velocity.x *= 0.98;
-    velocity.y *= 0.98;
+    velocity.x *= _smoothnessFactor;
+    velocity.y *= _smoothnessFactor;
     timer.userInfo[@"velocity"] = [NSValue valueWithCGPoint:velocity];
     
     CGPoint distance;
-    distance.x = velocity.x * 0.1;
-    distance.y = velocity.y * 0.1;
+    distance.x = velocity.x * kTimerInterval;
+    distance.y = velocity.y * kTimerInterval;
     
-    if((ABS(velocity.x) <= 10 && ABS(velocity.y) <= 10) || ![_target addTranslation:distance])
+    if((ABS(velocity.x) <= 0.001 && ABS(velocity.y) <= 0.001))
     {
         if (timer.userInfo[@"completionBlock"])
         {
@@ -74,6 +80,7 @@ const CGFloat kTimerInterval = 0.05;
         [timer invalidate];
         return;
     }
+    [_target addTranslation:distance];
 }
 
 @end

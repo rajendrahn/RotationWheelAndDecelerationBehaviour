@@ -10,8 +10,7 @@
 
 @protocol DecelerationBehaviourTarget <NSObject>
 
-//should return true if the operation is successful and false if the the translation was not possible may be beacuse of the boundary
-- (BOOL)addTranslation:(CGPoint)traslation;
+- (void)addTranslation:(CGPoint)traslation;
 
 @end
 
@@ -23,6 +22,11 @@ typedef void (^DecelerationCompletionBlock)();
 - (id)initWithTarget:(id<DecelerationBehaviourTarget>)target;
 
 @property (nonatomic, weak, readonly) id<DecelerationBehaviourTarget> target;
+
+//smoothnessFactor decides how smooth the deceleration will be
+//smoothnessFactor's range should be between 0 and < 1 if its beyond those range then behaviour is unexpected
+//defaults to 0.8
+@property (nonatomic, assign) CGFloat smoothnessFactor;  
 
 - (void)decelerateWithVelocity:(CGPoint)velocity withCompletionBlock:(DecelerationCompletionBlock)completionBlock;
 - (void)cancelDeceleration; //cancelling will not invoke completion block
