@@ -15,12 +15,13 @@ CGFloat degreeToRadian(CGFloat degree)
     return degree * M_PI / 180;
 }
 
-@interface ViewController () <DecelerationBehaviourTarget>
+@interface ViewController () <DecelerationBehaviourTarget, RotatingWheelDelegate>
 
 @property (weak, nonatomic) IBOutlet RotatingWheel *rotatingView;
 @property (weak, nonatomic) IBOutlet UIView *slideView;
 @property (weak, nonatomic) IBOutlet UIView *slidingView;
 @property (nonatomic, strong) DecelerationBehaviour *deceleratingBehaviour;
+@property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
 
 @end
 
@@ -44,6 +45,7 @@ CGFloat degreeToRadian(CGFloat degree)
     [NSNumber numberWithFloat:degreeToRadian(315)],
     [NSNumber numberWithFloat:degreeToRadian(345)],
     ];
+    _rotatingView.delegate = self;
 //    _rotatingView.shouldDecelerate = NO;
     _deceleratingBehaviour = [DecelerationBehaviour instanceWithTarget:self];
     _deceleratingBehaviour.smoothnessFactor = 0.9;
@@ -98,4 +100,20 @@ CGFloat degreeToRadian(CGFloat degree)
 {
     _slideView.hidden = !_slideView.hidden;
 }
+
+- (void)rotatingWheelDidEndDeceletation:(RotatingWheel *)rotatingWheel
+{
+    _notificationLabel.text = @"rotatingWheelDidEndDeceletation";
+}
+
+- (void)rotatingWheelDidEndDraging:(RotatingWheel *)rotatingWheel
+{
+    _notificationLabel.text = @"rotatingWheelDidEndDraging";
+}
+
+- (void)rotatingWheelDidStartRotating:(RotatingWheel *)rotatingWheel
+{
+    _notificationLabel.text = @"rotatingWheelDidStartRotating";
+}
+
 @end

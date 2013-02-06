@@ -7,6 +7,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class RotatingWheel;
+
+@protocol RotatingWheelDelegate <NSObject>
+
+@optional
+- (void)rotatingWheelDidStartRotating:(RotatingWheel *)rotatingWheel;
+- (void)rotatingWheelDidEndDraging:(RotatingWheel *)rotatingWheel;
+- (void)rotatingWheelDidEndDeceletation:(RotatingWheel *)rotatingWheel;
+
+@end
+
 @interface RotatingWheel : UIView
 
 //any touch outside the circle with self.center as center and self.circleRadius as radius will be discarded.
@@ -23,5 +34,7 @@
 //angle in radians
 @property (nonatomic, assign) CGFloat angle;
 - (void)setAngle:(CGFloat)angle animated:(BOOL)animated;
+
+@property (nonatomic, weak) id<RotatingWheelDelegate> delegate;
 
 @end

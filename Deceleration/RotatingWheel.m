@@ -9,6 +9,7 @@
 #import "DecelerationBehaviour.h"
 #import "ViewUtils.h"
 #import "ArrayUtils.h"
+#import <objc/message.h>
 
 typedef struct
 {
@@ -99,7 +100,14 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
 
 - (void)handlePan:(UIPanGestureRecognizer *)panGestureRecognizer
 {
-    [_deceleratingBehaviour cancelDeceleration];
+    if(panGestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        [_deceleratingBehaviour cancelDeceleration];
+        if([_delegate respondsToSelector:@selector(rotatingWheelDidStartRotating:)])
+        {
+            [_delegate rotatingWheelDidStartRotating:self];
+        }
+    }
     CGPoint presentTouchPoint = [panGestureRecognizer locationInView:self];
     CGPoint translation = [panGestureRecognizer translationInView:self];
     CGPoint previousTouchPoint = CGPointMake(presentTouchPoint.x - translation.x, presentTouchPoint.y - translation.y);
@@ -115,6 +123,10 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
         panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
         panGestureRecognizer.state == UIGestureRecognizerStateFailed)
     {
+        if([_delegate respondsToSelector:@selector(rotatingWheelDidEndDraging:)])
+        {
+            [_delegate rotatingWheelDidEndDraging:self];
+        }
         if(!_shouldDecelerate) return;
         CGPoint velocity = [panGestureRecognizer velocityInView:self];
         CGFloat velocityVectorMagneture = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
@@ -147,6 +159,10 @@ double distanceBetweenPoints(CGPoint point1, CGPoint point2)
                 }
                 NSInteger nearestIndex = (ABS(lengthOfArcForNextIndex) > ABS(lengthOfArcForPreviousIndex)) ? previousIndex : nextIndex;
                 [self setAngle:[_referenceAngles[nearestIndex] doubleValue] animated:YES];
+            }
+            if([_delegate respondsToSelector:@selector(rotatingWheelDidEndDeceletation:)])
+            {
+                [_delegate rotatingWheelDidEndDeceletation:self];
             }
         }];
     }
